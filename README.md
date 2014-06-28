@@ -1,7 +1,11 @@
 pinboardlinkspost
 =================
 
-A quick script to go through your saved links on Pinboard and turn them into a blog post in Markdown format
+A quick script to go through your saved links on Pinboard and turn
+them into a blog post in Markdown format, for Nikola currently, but
+originally Octopress.
+
+You can see an example of these posts at [http://michael-mccracken.net/2014/06/links-for-June-27-2014/](http://michael-mccracken.net/2014/06/links-for-June-27-2014/).
 
 
 ## Installing
