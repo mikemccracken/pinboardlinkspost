@@ -1,1 +1,2 @@
 -e git://github.com/mgan59/python-pinboard.git@9e1691fae2c17242a2e081d5d1d486c7e1d90af8#egg=Python_Pinboard-master
+PyYAML==3.11
