@@ -165,6 +165,7 @@ s = header + newpoststr
 with open(filename, 'w') as f:
     f.write(s.encode('utf-8'))
 
-print "opening emacs on ", filename
-
-os.system('emacs -nw %s' % filename)
+editor_string = conf.get('editor_string', None)
+if editor_string is not None:
+    print "editing ", filename
+    os.system(editor_string.format(filename=filename))
