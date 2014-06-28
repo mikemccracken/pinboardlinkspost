@@ -1,10 +1,12 @@
+#!python2.7
+
 import getpass
 from operator import itemgetter
 import os
-import pprint
 import readline
 import sys
 import datetime
+import yaml
 
 try:
     import pinboard
@@ -14,12 +16,21 @@ except ImportError:
     ''')
     sys.exit()
 
-default_username = os.getenv("PINBOARD_USERNAME")
+CONF_PATH = os.path.expanduser("~/.newlinkspost.yaml")
 
-username = raw_input("Pinboard username [{}]: ".format(default_username))
-if username == '':
-    username = default_username
-password = getpass.getpass("Pinboard password: ")
+username, password = None, None
+if os.path.exists(CONF_PATH):
+    with open(CONF_PATH) as cf:
+        conf = yaml.load(cf)
+    username = conf.get('pinboard_username', None)
+    password = conf.get('pinboard_password', None)
+
+if username is None:
+    username = raw_input("Pinboard username: ")
+
+if password is None:
+    password = getpass.getpass("Pinboard password: ")
+
 
 pconn = pinboard.open(username, password)
 
@@ -89,7 +100,6 @@ for link in links:
                 input = input.split(', ')
             link[which] = input
             readline.set_startup_hook(None)
-            pprint.pprint(link)
             try:
                 pconn.add(link['href'],
                           link['description'],
@@ -101,11 +111,11 @@ for link in links:
                 print("updated.")
             except pinboard.AddError:
                 print("error updating link!")
-                
+
     if cmd == 'y':
         newpoststr += "* [%s](%s)\n\t%s\n\n" % (link['description'],
-                                              url,
-                                              link['extended'])
+                                                url,
+                                                link['extended'])
         map(tags.add, link['tags'])
         seen[url] = 'y'
     elif cmd in ['N', 'n', '']:
