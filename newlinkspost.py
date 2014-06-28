@@ -10,6 +10,10 @@ import yaml
 
 try:
     import pinboard
+    # if you want API debug logs - try this
+    # pinboard._debug=1
+    # note that some debug prints will raise exceptions on non-ascii
+    # content, breaking an otherwise working script.
 except ImportError:
     print('''error, no pinboard. try
     pip install -e git://github.com/mgan59/python-pinboard.git@v1.1#egg=python-pinboard
@@ -102,8 +106,8 @@ for link in links:
             readline.set_startup_hook(None)
             try:
                 pconn.add(link['href'],
-                          link['description'],
-                          extended=link['extended'],
+                          link['description'].encode('utf-8'),
+                          extended=link['extended'].encode('utf-8'),
                           tags=link['tags'],
                           date=link['time_parsed'],
                           toread=link.get('toread', 'no'),
