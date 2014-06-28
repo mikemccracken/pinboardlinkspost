@@ -14,9 +14,11 @@ except ImportError:
     ''')
     sys.exit()
 
-username = raw_input("Pinboard username [mmc]: ")
+default_username = os.getenv("PINBOARD_USERNAME")
+
+username = raw_input("Pinboard username [{}]: ".format(default_username))
 if username == '':
-    username = 'mmc'
+    username = default_username
 password = getpass.getpass("Pinboard password: ")
 
 pconn = pinboard.open(username, password)
